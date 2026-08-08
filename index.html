@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FIS Tap-to-Earn | TON Mini App</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    
+    <!-- Estilos -->
+    <link rel="stylesheet" href="css/glassmorphism.css">
+    <link rel="stylesheet" href="css/game.css">
+    
+    <!-- TON Connect SDK -->
+    <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
+</head>
+<body>
+    <div class="glass-container glass-card">
+        <div class="game-layout">
+            <!-- Header Dinámico -->
+            <header class="banner-header glass-container">
+                <span class="league-tag" id="league-name">Cargando...</span>
+                <h2 id="rank-name">Iniciando Juego</h2>
+                <div class="rank-progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+            </header>
+
+            <!-- Stats -->
+            <div class="stats-container">
+                <div class="stat-box glass-container">
+                    <span class="stat-label">SALDO FIS</span>
+                    <span class="stat-value" id="points-display">0.00</span>
+                </div>
+                <div class="stat-box glass-container">
+                    <span class="stat-label">MULTIPLICADOR</span>
+                    <span class="stat-value" id="multiplier-display">x1.0</span>
+                </div>
+            </div>
+
+            <!-- Moneda Central -->
+            <div class="coin-container">
+                <div class="main-coin">
+                    <img src="assets/fis-token.svg" alt="FIS Token">
+                </div>
+            </div>
+
+            <!-- Acciones -->
+            <div class="actions-container" style="display: flex; flex-direction: column; gap: 10px;">
+                <button id="upgrade-btn" class="glass-button">Subir de Rango</button>
+                <div id="ton-connect-btn"></div>
+                
+                <div style="text-align: center; font-size: 0.7rem; color: var(--text-secondary); margin-top: 10px;">
+                    Referidos necesarios para retirar: <span id="ref-needed">30</span>
+                </div>
+                <button id="withdraw-btn" class="glass-button" style="background: rgba(255,255,255,0.1); box-shadow: none; border: 1px solid var(--glass-border);">
+                    Retirar FIS
+                </button>
+            </div>
+
+            <!-- Navegación -->
+            <nav class="navigation-bar">
+                <div class="nav-item active">🎮</div>
+                <div class="nav-item">🏆</div>
+                <div class="nav-item">👥</div>
+                <div class="nav-item">⚙️</div>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

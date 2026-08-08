@@ -1,0 +1,11 @@
+<svg width="200" height="200" viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="100" cy="100" r="90" fill="url(#paint0_radial)" stroke="#F59E0B" stroke-width="5"/>
+    <path d="M70 60H130V80H90V100H120V120H90V150H70V60Z" fill="white"/>
+    <text x="100" y="145" text-anchor="middle" fill="white" font-family="Arial" font-weight="bold" font-size="24">FIS</text>
+    <defs>
+        <radialGradient id="paint0_radial" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(100 100) rotate(90) scale(90)">
+            <stop stop-color="#FBBF24"/>
+            <stop offset="1" stop-color="#B45309"/>
+        </radialGradient>
+    </defs>
+</svg>

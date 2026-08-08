@@ -1,0 +1,95 @@
+:root {
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.18);
+    --glass-blur: blur(24px) saturate(1.35);
+    --accent-purple: #b9a7ff;
+    --accent-blue: #38bdf8;
+    --accent-neon: #38bdf8;
+    --text-primary: #ffffff;
+    --text-secondary: rgba(255, 255, 255, 0.7);
+    --bg-deep: #0f172a;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    background: var(--bg-deep);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at top right, #1e293b, #0f172a);
+}
+
+.glass-container {
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border: 1px solid var(--glass-border);
+    border-radius: 26px;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+.glass-card {
+    padding: 24px;
+    width: 90vw;
+    max-width: 400px;
+    transition: transform 0.1s ease-out;
+    perspective: 1000px;
+}
+
+.glass-input {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    padding: 12px 16px;
+    color: white;
+    outline: none;
+    transition: all 0.3s ease;
+    width: 100%;
+}
+
+.glass-input:focus {
+    border-color: var(--accent-neon);
+    box-shadow: 0 0 15px rgba(56, 189, 248, 0.3);
+}
+
+.glass-button {
+    background: linear-gradient(135deg, var(--accent-purple), var(--accent-blue));
+    border: none;
+    border-radius: 14px;
+    padding: 14px 24px;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(185, 167, 255, 0.4);
+}
+
+.glass-button:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 8px rgba(185, 167, 255, 0.2);
+}
+
+/* Animaciones */
+@keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0px); }
+}
+
+@keyframes pulse-neon {
+    0% { box-shadow: 0 0 5px var(--accent-neon); }
+    50% { box-shadow: 0 0 20px var(--accent-neon); }
+    100% { box-shadow: 0 0 5px var(--accent-neon); }
+}
