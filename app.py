@@ -17,7 +17,7 @@ db.init_app(app)
 GAME_CONFIG = {
     "TOKEN_NAME": "FIS",
     "INITIAL_WITHDRAWAL_FREE": 2.00,
-    "MAX_REFERRALS_REQUIRED": 30,
+    "MAX_REFERRALS_REQUIRED": 0,
     "LEAGUES": [
         {"id": 1, "name": "Huevo de Pez", "minRank": 1, "maxRank": 5, "color": "#38bdf8"},
         {"id": 2, "name": "Alevín", "minRank": 6, "maxRank": 10, "color": "#4ade80"},
