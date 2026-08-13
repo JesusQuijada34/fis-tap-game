@@ -1,5 +1,6 @@
 import os
 import json
+import math
 from flask import Flask, render_template, request, jsonify
 from database import db, User, CharacterState, Referral
 from datetime import datetime
@@ -187,9 +188,14 @@ def ascend_rank():
 @app.route('/api/retirar-fis', methods=['POST'])
 def withdraw_fis():
     """Procesar retiro de FIS"""
-    data = request.get_json()
+    data = request.get_json(silent=True) or {}
     user_id = data.get('user_id')
-    amount = data.get('amount', 0.0)
+    try:
+        amount = float(data.get('amount', 0.0))
+    except (TypeError, ValueError):
+        return jsonify({'error': 'amount debe ser numérico'}), 400
+    if not math.isfinite(amount) or amount <= 0:
+        return jsonify({'error': 'amount debe ser mayor que cero'}), 400
     
     if not user_id:
         return jsonify({'error': 'user_id requerido'}), 400
@@ -203,7 +209,9 @@ def withdraw_fis():
     referral_count = Referral.query.filter_by(referente_id=user.id).count()
     
     # Validar primer retiro (2.00 FIS gratis)
-    if not user.primer_retiro_completado and amount == 2.00:
+    if not user.primer_retiro_completado and math.isclose(amount, 2.00, rel_tol=0.0, abs_tol=1e-9):
+        if user.saldo_fis < amount:
+            return jsonify({'error': 'Saldo insuficiente para el primer retiro', 'required': amount, 'current': user.saldo_fis}), 400
         user.saldo_fis -= amount
         user.primer_retiro_completado = True
         db.session.commit()
@@ -238,7 +246,7 @@ def withdraw_fis():
     
     return jsonify({
         'success': True,
-        'message': 'Solicitud de retiro enviada a la red TON',
+        'message': 'Solicitud de retiro registrada localmente; la integración TON aún no está implementada',
         'amount': amount,
         'remaining_balance': user.saldo_fis
     }), 200
