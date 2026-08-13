@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <app>
-  <publisher>Jesusquijada34</publisher>
+  <publisher>influent</publisher>
   <app>fis-tap-game</app>
   <name>FIS Tap Game</name>
-  <version>v1.0-26.08-21.56-AlphaCube</version>
-  <correlationid>35cca0fb60811e1e5467b92bc8e172cf55faa84e1e32d0ed896d0396b16c156a</correlationid>
+  <version>v1.0-26.08-21.56</version>
+  <correlationid>d13d6fb394efc5dc8b6ba72d532855e2a86761feed943f1c392e7efbd786d061</correlationid>
   <rate>Todas las edades</rate>
   <author>JesusQuijada34</author>
   <platform>AlphaCube</platform>
