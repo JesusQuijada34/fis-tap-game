@@ -1,77 +1,37 @@
-# FIS Tap-to-Earn Telegram Mini App
+# FIS Tap Game
 
-## Resumen Ejecutivo
+FIS Tap Game es una aplicación web Flask/SQLAlchemy orientada a una Telegram Mini App. Implementa un juego de toque con **30 rangos**, **6 ligas**, experiencia, saldo interno y requisitos de referidos. El frontend puede usar una estética móvil tipo glassmorphism, pero el backend es la fuente de verdad para el estado del jugador.
 
-**FIS Tap-to-Earn** es una aplicación descentralizada de alto rendimiento desarrollada en **HTML5 semántico, CSS3 nativo y JavaScript moderno (ES6+)**, diseñada específicamente como una **Telegram Mini App** integrada con la red **TON (The Open Network)**. Su diseño visual se inspira en una estética **Glassmorphic** de alta gama, proporcionando una experiencia de usuario fluida, interactiva y optimizada para dispositivos móviles.
+## Estado técnico importante
 
-El ecosistema gira en torno al **Token FIS**, implementando un motor de minería por toque (*tap-to-earn*), un sistema de progresión de **30 rangos distribuidos en 6 ligas competitivas**, y un mecanismo inteligente de quema de tokens y requisitos de referidos para la gestión de retiros.
+El saldo FIS de este repositorio es un valor interno de la aplicación. La ruta `/api/retirar-fis` registra una deducción local; **no existe una integración TON que firme o envíe transacciones**, por lo que el sistema no debe anunciar retiros en la red como si ya estuvieran ejecutándose.
 
----
+Antes de desplegarlo con usuarios reales debe añadirse verificación de `initData` de Telegram en el servidor. No se debe confiar únicamente en `telegram_id` o `user_id` enviados por el cliente, y las rutas de juego requieren límites de frecuencia y controles antifraude adicionales.
 
-## Estructura del Repositorio
+## Instalación
 
-La arquitectura del proyecto se organiza de forma modular para garantizar mantenibilidad, velocidad de carga instantánea y facilidad de despliegue:
-
-```text
-/ (Raíz del proyecto)
-├── index.html               # Estructura HTML5 de la Mini App
-├── css/
-│   ├── glassmorphism.css    # Estilos globales, Blur, Variables CSS y Animaciones
-│   └── game.css             # Estilos de la interfaz del juego, moneda y tienda
-├── js/
-│   ├── config.js            # Matriz de los 30 Rangos, Ligas y Requisitos
-│   ├── engine.js            # Física 3D, animación de partículas y eventos de toque
-│   ├── ton-connect.js       # Integración con TonConnect / Wallets de TON
-│   └── app.js               # Lógica principal de puntos, login y retiros
-├── assets/                  # Iconos y elementos vectoriales SVG (fis-token.svg)
-├── tonconnect-manifest.json # Manifiesto para la integración con TonConnect
-└── README.md                # Documentación del proyecto
+```bash
+python -m venv .venv
+. .venv/bin/activate
+python -m pip install -r requirements.txt
+export DATABASE_URL=sqlite:///fis_game.db
+python app.py
 ```
 
----
+En producción, usa PostgreSQL, un servidor WSGI como Gunicorn, `FLASK_ENV` distinto de `development` y secretos mediante variables de entorno. No guardes tokens de Telegram ni claves de billetera en el repositorio.
 
-## Especificaciones Técnicas y de Diseño
+## API principal
 
-### 1. Interfaz Gráfica (Glassmorphism)
-La interfaz implementa un diseño translúcido avanzado mediante las siguientes propiedades CSS nativas:
-- **Efecto de cristal esmerilado**: `backdrop-filter: blur(24px) saturate(1.35);`
-- **Bordes y sombras ambientales**: Bordes sutiles con `border: 1px solid rgba(255, 255, 255, 0.18)` y esquinas redondeadas de `26px`.
-- **Inclinación 3D interactiva**: El motor visual calcula en tiempo real los eventos de puntero (`pointermove`) para aplicar una transformación en perspectiva 3D sobre la tarjeta principal.
+`POST /api/user/init` crea o recupera un usuario; `POST /api/tap` procesa un toque; `POST /api/ascender-rango` valida el coste de ascenso; `POST /api/retirar-fis` valida un importe positivo y saldo suficiente, pero solo registra el retiro localmente; `GET /api/config` devuelve la matriz de rangos.
 
-### 2. Sistema de 30 Rangos y 6 Ligas
-El juego estructura la progresión del usuario a través de una matriz algorítmica de 30 rangos divididos equitativamente en 6 ligas:
+La prueba `smoke_test.py` verifica el arranque con SQLite temporal, la matriz de 30 rangos y el rechazo de importes negativos, cero, no finitos o no numéricos. No realiza operaciones financieras externas.
 
-| Liga | Rango de Niveles | Color Temático | Requisito de Referidos (Inicio a Fin) |
-| :--- | :--- | :--- | :--- |
-| **Huevo de Pez** | 1 - 5 | `#38bdf8` (Azul Neón) | 30 ➔ 26 |
-| **Alevín** | 6 - 10 | `#4ade80` (Verde Esmeralda) | 25 ➔ 21 |
-| **Nadador** | 11 - 15 | `#fbbf24` (Ámbar) | 20 ➔ 16 |
-| **Depredador** | 16 - 20 | `#f87171` (Coral) | 15 ➔ 11 |
-| **Tiburón** | 21 - 25 | `#a78bfa` (Púrpura) | 10 ➔ 6 |
-| **El Padrino Supremo** | 26 - 30 | `#f472b6` (Rosa Neón) | 5 ➔ 0 |
+## Plataforma y paquete
 
-*Nota: A medida que el jugador asciende de rango mediante la quema de tokens FIS, el requisito de referidos para realizar retiros disminuye progresivamente desde 30 hasta 0.*
+El proyecto es código fuente web y se clasifica como **AlphaCube**, no como Debian Danenone. El artefacto fuente debe conservar el formato:
 
-### 3. Integración con la Red TON (TonConnect)
-La aplicación se conecta de forma nativa con el SDK `@tonconnect/ui`, permitiendo autenticación segura mediante billeteras de la red TON (como Tonkeeper, MyTonWallet, etc.) y la firma de transacciones en la red principal o de prueba.
+```text
+JesusQuijada34.fis-tap-game.v1.0-26.08-23.43-AlphaCube.iflapp
+```
 
----
-
-## Guía de Instalación y Despliegue en Telegram
-
-1. **Clonar el repositorio**:
-   ```bash
-   git clone https://github.com/JesusQuijada34/fis-tap-game.git
-   cd fis-tap-game
-   ```
-
-2. **Servir de forma local**:
-   Puedes utilizar cualquier servidor estático (por ejemplo, `live-server` o Python):
-   ```bash
-   python3 -m http.server 8080
-   ```
-
-3. **Configuración en Telegram**:
-   - Crea un bot en Telegram a través de [@BotFather](https://t.me/BotFather).
-   - Configura el comando `/newapp` y proporciona la URL HTTPS donde esté alojada la Mini App (por ejemplo, desplegada en GitHub Pages, Vercel o Netlify).
-   - Asocia el bot al repositorio bajo el usuario **JesusQuijada34**.
+Revisa la normativa aplicable y las condiciones de cualquier red blockchain antes de añadir depósitos, retiros o conversión de saldos con valor económico.

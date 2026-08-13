@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<app>
+  <publisher>JesusQuijada34</publisher>
+  <app>fis-tap-game</app>
+  <name>FIS Tap Game</name>
+  <version>v1.0-26.08-23.43-AlphaCube</version>
+  <rate>Todas las edades</rate>
+  <author>JesusQuijada34</author>
+  <platform>AlphaCube</platform>
+  <description>Juego web Flask con rangos, referidos y saldo interno; sin transferencia TON implementada</description>
+  <year>2026</year>
+</app>
